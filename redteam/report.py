@@ -165,11 +165,23 @@ def build(
     summary: dict = {"meta": meta, "targets": {}}
     for tg in targets:
         head, body, raw = ablation(rows, tg)
+        ben_all = [r for r in rows if r["target"] == tg and r["condition"] == "all" and not r["attack"]]
+        hit = sorted({r["case_id"] for r in ben_all if r["intervened"]})
+        n_cases = len({r["case_id"] for r in ben_all})
+        fp_note = (
+            f" **Cost of defences:** with all defences on, {sum(r['intervened'] for r in ben_all)}/"
+            f"{len(ben_all)} benign runs ({n_cases} benign cases) were blocked or altered; affected cases: "
+            f"{', '.join(hit) or 'none'}. Several benign cases are deliberate bait (attack-like wording such "
+            'as "ignore all alerts"), so this FPR is an upper-bound stress figure on a small n, not a '
+            "production estimate."
+            if ben_all
+            else ""
+        )
         sections.append(
             (
                 f"Ablation: {tg}",
                 "Attack success rate (rule judge) per category; benign FPR = share of "
-                "benign runs where any defence blocked an input, a tool call or redacted output.",
+                "benign runs where any defence blocked an input, a tool call or redacted output." + fp_note,
                 head,
                 body,
             )
@@ -201,7 +213,9 @@ def build(
         sections.append(
             (
                 "Agreement with hand labels",
-                f"{hl['n']} hand-labelled transcripts ({hl['positives_by_hand']} labelled successful).",
+                f"{hl['n']} hand-labelled transcripts ({hl['positives_by_hand']} labelled successful). "
+                "Caveat: the same author wrote the rule checks and the labelling guide, so rules-vs-hand "
+                "kappa overstates independent validity.",
                 hh,
                 hb,
             )

@@ -191,3 +191,12 @@ payload. When in doubt, ask whether a defender would need to clean anything up a
   design are the obvious next steps.
 - There is one labeller, and it is the same agent that wrote the cases. κ against hand labels mostly measures
   how well each judge encodes the labelling guide.
+
+## Review fixes: false positives and kappa caveat
+- **Benign FPR with all defences (0.333) is a stress figure, not a production estimate.** It comes from a small
+  benign set (12 cases on toy, 9 on project 5, ×3 seeds), and the blocked cases (BN-006, BN-008, BN-009, BN-014) are
+  deliberate bait with attack-like wording that the input filter matches. The report now names n and the affected
+  cases next to each ablation table. A real deployment would tune the input filter or drop it in favour of the
+  tool-output sanitiser and privilege separation, which carry most of the attack-success reduction.
+- **Rules-vs-hand kappa 1.000 is not independent validation**: the same author wrote the rules and the labelling
+  guide. The caveat is printed in the report next to the kappa table, not only here.
