@@ -1,0 +1,25 @@
+{
+  "suite": "core",
+  "suite_version": "1.0.0",
+  "seed_cases": 64,
+  "mutants": 98,
+  "conditions": [
+    "none",
+    "input_filter",
+    "output_filter",
+    "sanitiser",
+    "privsep",
+    "policy",
+    "all"
+  ],
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "provider": "mock",
+  "targets": [
+    "toy",
+    "p5"
+  ]
+}
