@@ -1,0 +1,37 @@
+[project]
+name = "agent-redteam-eval"
+version = "0.1.0"
+description = "TEVV harness: prompt-injection, jailbreak and tool-misuse evaluation of LLM agents, with defence ablations"
+requires-python = ">=3.12"
+dependencies = [
+  "pydantic==2.14.3",
+  "PyYAML==6.0.3",
+  "anyio==4.16.0",
+  # Project 5 (path dependency, P5_PATH) needs these at runtime:
+  "mcp==2.3.0",
+  "anthropic==2.8.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "ruff==0.17.5"]
+
+[project.scripts]
+redteam = "redteam.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["redteam", "redteam.targets"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
