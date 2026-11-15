@@ -314,9 +314,9 @@ class ToyPlanner:
         t = task.lower()
         ips = IP_RE.findall(task)
         plan: list[tuple[str, dict]] = []
-        if "web" in t:
+        if re.search(r"\bweb (?:server|shell|request)", t):
             query = "GET /"
-        elif "beacon" in t or "c2" in t:
+        elif re.search(r"\bbeacon|\bc2\b", t):
             query = "beacon"
         else:
             query = "Failed password"

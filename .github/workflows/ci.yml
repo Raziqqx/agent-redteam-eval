@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Mock LLM only. No key is configured; nothing in CI calls a real model.
+      ANTHROPIC_API_KEY: ""
+      # Project 5 is a separate repo (path dependency). If it is not checked out next to this repo,
+      # its adapter tests are skipped and the smoke run uses the toy target only.
+      P5_PATH: ${{ github.workspace }}/../agentic-threat-hunter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Lint
+        run: ruff check . && ruff format --check .
+      - name: Tests
+        run: python -m pytest -q -rs
+      - name: Smoke run (toy target, none vs all, one seed)
+        run: make smoke PY=python
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke-report
+          path: results/smoke/report.*

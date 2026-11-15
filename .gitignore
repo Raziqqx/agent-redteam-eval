@@ -8,3 +8,4 @@ build/
 results/runs.jsonl
 results/transcripts.jsonl
 .env
+results/smoke/
