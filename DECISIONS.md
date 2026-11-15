@@ -196,7 +196,8 @@ payload. When in doubt, ask whether a defender would need to clean anything up a
 - **Benign FPR with all defences (0.333) is a stress figure, not a production estimate.** It comes from a small
   benign set (12 cases on toy, 9 on project 5, ×3 seeds), and the blocked cases (BN-006, BN-008, BN-009, BN-014) are
   deliberate bait with attack-like wording that the input filter matches. The report now names n and the affected
-  cases next to each ablation table. A real deployment would tune the input filter or drop it in favour of the
-  tool-output sanitiser and privilege separation, which carry most of the attack-success reduction.
+  cases next to each ablation table. In the ablation the input filter is the only defence with a non-zero benign
+  FPR (every other single defence: 0.000). No "all defences except the input filter" condition was run, so how much
+  attack-success reduction would be lost by dropping it is not measured here.
 - **Rules-vs-hand kappa 1.000 is not independent validation**: the same author wrote the rules and the labelling
   guide. The caveat is printed in the report next to the kappa table, not only here.
