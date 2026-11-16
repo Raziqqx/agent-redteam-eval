@@ -6,6 +6,8 @@ interface, under seven defence conditions, and scores what the attacks actually 
 deliberately naive toy agent (the positive control) and the real agent loop and MCP server from project 5,
 [agentic-threat-hunter](../agentic-threat-hunter).
 
+**Start here: [docs/GUIDE.md](docs/GUIDE.md)** (how every part works, traced through the code).
+
 > **Read this first: every number below comes from mocks.** The agent's "LLM" is a *susceptible mock*
 > (`redteam/llm.py`) that follows injected directives with chosen probabilities, and the LLM judge is a
 > *mock* heuristic. The results show **defence mechanics** (what each defence blocks and what slips past it),
@@ -69,6 +71,23 @@ How to read these honestly:
 - Absolute ASR levels are set by the mock's chosen probabilities. Only the relative, per-mechanism effects mean
   anything (e.g. the output DLP filter cuts toy exfiltration from 0.639 to 0.083 and does nothing else).
 
+## See it working
+
+Run from the repo root (no API key needed; about a minute in total):
+
+1. `make venv` : creates `.venv/` and installs the pinned requirements. You should see pip finish without errors.
+2. `make test` : you should see `49 passed` (project 5 adapter tests need `../agentic-threat-hunter`; without it
+   they show as skipped).
+3. `make smoke` : runs the toy agent with no defences and with all defences. You should see
+   `toy: 156 cases x 2 conditions x 1 seeds`, `312 runs -> results/smoke/runs.jsonl` and
+   `toy: ASR none=0.583 all=0.062 benign FPR(all)=0.333 rule/judge kappa=0.845`.
+4. Open `results/smoke/report.html` in a browser (from WSL: `explorer.exe results\smoke\report.html`, or
+   `xdg-open` on Linux). You should see the ablation table: attack success per category for "none" and "all".
+5. Open the committed full report `results/report.html` to see all 7 defence conditions for both agents, the
+   judge-agreement table and the hand-label table. It looks like this:
+
+![The full HTML report: toy ablation table](docs/report_screenshot.png)
+
 ## Demo
 
 No GIF is committed. To record one (about a minute, no key needed):
@@ -120,5 +139,5 @@ tests/              pytest suite
 - **HTX xCyber**: AI safety and security TEVV of agentic systems, red teaming with safeguards, Python + LLMs.
 - **MAS**: evaluation frameworks for enterprise AI (benchmark suites, judge agreement, methodology), MCP.
 
-More: [docs/FEATURES.md](docs/FEATURES.md), [docs/DESIGN.md](docs/DESIGN.md),
+More: [docs/GUIDE.md](docs/GUIDE.md), [docs/FEATURES.md](docs/FEATURES.md), [docs/DESIGN.md](docs/DESIGN.md),
 [docs/INTERVIEW_NOTES.md](docs/INTERVIEW_NOTES.md), [DECISIONS.md](DECISIONS.md).

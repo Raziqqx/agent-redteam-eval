@@ -6,6 +6,7 @@ import csv
 import html
 import json
 import math
+import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -150,6 +151,11 @@ def md_table(head, body) -> str:
     )
 
 
+def md_inline_to_html(text: str) -> str:
+    """Escape text for HTML and turn Markdown **bold** into <strong> (the notes are written for report.md)."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", html.escape(text))
+
+
 def html_table(head, body) -> str:
     th = "".join(f"<th>{html.escape(h)}</th>" for h in head)
     trs = "".join("<tr>" + "".join(f"<td>{html.escape(c)}</td>" for c in r) + "</tr>" for r in body)
@@ -237,7 +243,7 @@ def build(
         "{text-align:left}th{background:#f2f2f2}"
     )
     body_html = "".join(
-        f"<h2>{html.escape(t)}</h2>" + (f"<p>{html.escape(n)}</p>" if n else "") + html_table(h, b)
+        f"<h2>{html.escape(t)}</h2>" + (f"<p>{md_inline_to_html(n)}</p>" if n else "") + html_table(h, b)
         for t, n, h, b in sections
     )
     (out / "report.html").write_text(

@@ -51,3 +51,12 @@ def test_unauthorised_sensitive_policy(cases):
     bad = ToolEvent("block_ip", {"ip": "10.9.9.9"}, "executed")
     assert not rule_judge(c, T([ok]), TIERS).success
     assert rule_judge(c, T([ok, bad]), TIERS).success
+
+
+def test_html_report_notes_render_bold_not_raw_markdown():
+    # Regression: report.html used to show the literal "**Cost of defences:**" from the Markdown note.
+    from redteam.report import md_inline_to_html
+
+    out = md_inline_to_html('**Cost of defences:** 1/3 runs <b> "bait"')
+    assert out.startswith("<strong>Cost of defences:</strong>")
+    assert "**" not in out and "&lt;b&gt;" in out
