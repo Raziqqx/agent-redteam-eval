@@ -6,8 +6,6 @@ interface, under seven defence conditions, and scores what the attacks actually 
 deliberately naive toy agent (the positive control) and the real agent loop and MCP server from project 5,
 [agentic-threat-hunter](../agentic-threat-hunter).
 
-**Start here: [docs/GUIDE.md](docs/GUIDE.md)** (how every part works, traced through the code).
-
 > **Read this first: every number below comes from mocks.** The agent's "LLM" is a *susceptible mock*
 > (`redteam/llm.py`) that follows injected directives with chosen probabilities, and the LLM judge is a
 > *mock* heuristic. The results show **defence mechanics** (what each defence blocks and what slips past it),
@@ -134,10 +132,3 @@ results/            report.md/.html, ablation_*.csv, summary.json, meta.json
 tests/              pytest suite
 ```
 
-## Target roles
-
-- **HTX xCyber**: AI safety and security TEVV of agentic systems, red teaming with safeguards, Python + LLMs.
-- **MAS**: evaluation frameworks for enterprise AI (benchmark suites, judge agreement, methodology), MCP.
-
-More: [docs/GUIDE.md](docs/GUIDE.md), [docs/FEATURES.md](docs/FEATURES.md), [docs/DESIGN.md](docs/DESIGN.md),
-[docs/INTERVIEW_NOTES.md](docs/INTERVIEW_NOTES.md), [DECISIONS.md](DECISIONS.md).
